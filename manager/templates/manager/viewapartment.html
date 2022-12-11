@@ -1,0 +1,38 @@
+{% extends 'manager/base.html' %}
+
+
+{% block content %}
+    {% if message %}
+    <div class="alert alert-success" role="alert">
+        {{ message }}
+    </div>
+    {% endif %}
+    <!-- this page displays the apartment details -->
+    <div class="apartment-container">
+        <h1 style="font-size: 3.5rem;">{{ apartment.name }}</h1>
+        <div class="apartment-details">
+            <div class="apartment-image">
+                <img class="apt-image" src="../../../media/{{ apartment.image }}" alt="apartment image">
+            </div>
+            <div class="apartment-info"> 
+                <p><b style="font-size:2rem;">Description</b><br>{{ apartment.apartment_desc }}</p>
+                <p><b style="font-size:2rem;">Address </b><br>{{ apartment.location }}</p>
+                <p><b style="font-size:2rem;">Contact</b> +91 {{ apartment.contact }}</p>
+                <p><b style="font-size:2rem;">{{ apartment.bhk }} BHK</b></p>
+                {% if user.user_type == 'ten' and status == 'available' %}
+                    <p id="ptag">
+                        <a href="{% url 'maketenant' apartment.id %}"><button id="ten-btn" class="btn btn-info">Become Tenant</button></a>
+                    </p>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+    <script defer>
+        const ten = document.getElementById('ten-btn');
+        const changebtn = document.getElementById('change');
+        const ptag = document.getElementById('ptag');
+
+        const user_status = "{{ status }}";
+    </script>
+{% endblock %}

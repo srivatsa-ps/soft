@@ -1,0 +1,25 @@
+{% extends 'manager/base.html' %}
+
+
+{% block content %}
+
+    <!-- List all the applications  -->
+    <div class="applications-container">
+        <h1 style="font-size: 3.5rem;margin-left: 1rem">Applications</h1>
+        <div class="applications-list">
+            {% for application in applications %}
+                <div class="application">
+                    <div class="application-left">
+                        <h1 style="font-weight:400;">{{ application.user.username }}</h1>
+                        <p><b>{{ application.user.email }}</b></p>
+                        <p><b>{{ application.apartment }}</b></p>
+                    </div>
+                    <div class="application-right">
+                        <a href="{% url 'approve' application.id application.user.id %}" class="btn btn-primary">Approve</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

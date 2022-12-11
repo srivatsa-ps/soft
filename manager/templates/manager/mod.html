@@ -1,0 +1,29 @@
+{% extends 'manager/base.html' %}
+
+{% block content %}
+
+    <div class="user-container">
+        <h1 style="font-size: 3.5rem; margin: 3rem;">Users</h1>
+        <div class="users-list">
+            {% for user_ in users %}
+                {% if user_.user_type == 'ten' %}
+                    <div class="emp-card">
+                        <div class="user-info">
+                            <h1 style="font-weight:400;">{{ user_.username }}</h1>
+                        </div>
+                        <div class="user-info">
+                            <p><b>Phone:</b> {{ user_.phnumber }}</p>
+                        </div>
+                        <div class="user-info">
+                            <p><b>Address:</b> {{ user_.user_type }}</p>
+                        </div>
+                        <div class="user-info">
+                            <p><b>City:</b> {{ user_.apartment }}</p>
+                        </div>
+                        <div class="user-info">
+                            <a href="{% url 'addemployee' user_.id %}"><button class="btn btn-primary">Add as Employee</button></a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+{% endblock %}

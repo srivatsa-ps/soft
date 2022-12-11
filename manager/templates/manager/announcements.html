@@ -1,0 +1,22 @@
+{% extends 'manager/base.html' %} 
+
+{% block content%}
+
+    <div class="announcements-container">
+            <h1 style="font-size: 3.5rem;">Announcements</h1>
+            {% if user.user_type == 'adm' %}
+                <a href="{% url 'addannouncement' %}"><button class="btn btn-primary">Add new announcement</button></a>
+            {% endif %}
+            <div class="announcements-list">
+                {% for announcement in announcements %}
+                    <div class="announcement">
+                        <h1 style="font-weight:400;">{{ announcement.title }}</h1>
+                        <p>{{ announcement.description }}</p>
+                        <p><b>{{ announcement.date }}, {{ announcement.time }}</b></p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+{% endblock %}

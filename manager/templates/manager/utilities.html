@@ -1,0 +1,122 @@
+{% extends 'manager/base.html' %}
+
+{% block content %}
+    {% if message %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+    <div class="utilities-container">
+
+        <div class="util-left-box">
+            <h1>Utilities</h1>
+        </div>
+        {% if user.approved %}
+            {% if user.user_type == 'emp' %}
+                <div class="util-right-box">
+                    {% for booking in bookings %}
+                        {% if booking.assigned == user or not booking.assigned %}
+                            <div class="util-card" style="display: flex; justify-content: space-between;">
+                                <div class="util-card-header">
+                                    <div>
+                                        <h3>{{ booking.util }}</h3>
+                                        <p>{{ booking.req_user.username }} : {{ booking.req_user.apartment }}</p>
+                                    </div>
+                                </div>
+                                <div class="util-card-footer">
+                                    {% if not booking.assigned %}
+                                        <a href="{% url 'assign' booking.id %}"><button class="btn btn-dark">Assign myself</button></a>
+                                    {% endif %}
+                                    <a href="{% url 'close' booking.id %}"><button class="btn btn-warning">Close Job</button></a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            {% endif %}
+
+            {% if user.user_type == 'ten' %}
+                <div class="util-right-box">
+                    {% for utility in utilities %}
+                        <div class="util-card">
+                            <div class="util-card-header">
+                                <div>
+                                    <h3>{{ utility.name }}</h3>
+                                </div>
+                                <div>
+                                    <a href="{% url 'requestutil' utility.id %}"><button class="btn btn-primary req-btn">Request Utility</button></a>
+                                </div>
+                            </div>
+                            <div class="util-card-footer">
+                                <p>
+                                    {{ utility.description }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="help-text">
+                        <p>Already requested? <a id="view">Check here for assigned slots</a></p>
+                    </div>
+                </div>
+                
+                <div class="util-right-box secondary">
+                    <h2>Assigned requests</h2>
+                </div>
+        {% endif %}
+    {% else %}
+        <div class="util-right-box">
+            <h2>Sorry, you are not approved yet</h2>
+        </div>
+    {% endif %}
+    <script defer>
+        const view = document.getElementById('view');
+        view.addEventListener('click', () => {
+            fetch("/jobs")
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.data.length > 0) {
+                    const utilRightBox = document.querySelector('.util-right-box');
+                    utilRightBox.innerHTML = '';
+
+                    const utilRightBoxSecondary = document.querySelector('.util-right-box.secondary');
+                    utilRightBoxSecondary.innerHTML = '';
+                    utilRightBoxSecondary.style.display = 'block';
+                    
+                    const h2 = document.createElement('h2');
+                    h2.innerText = 'Assigned requests';
+                    utilRightBoxSecondary.appendChild(h2);
+                    
+                    data.data.forEach(job => {
+                        const div = document.createElement('div');
+                        div.classList.add('util-card');
+                        div.id = "jobs";
+
+                        const divHeader = document.createElement('div');
+                        divHeader.classList.add('util-card-header');
+
+                        const divFooter = document.createElement('div');
+                        divFooter.classList.add('util-card-footer');
+
+                        const h3 = document.createElement('h3');
+                        h3.innerText = job.util;
+                        
+                        divFooter.innerHTML =`<p><b class="bold-texts">Assigned to</b> ${job.assigned}<br><b class="bold-texts">Date</b> ${job.date}<br><b class="bold-texts">Time</b> ${job.time}</p>`;
+                        divHeader.appendChild(h3);
+                        div.appendChild(divHeader);
+                        div.appendChild(divFooter);
+                        utilRightBoxSecondary.appendChild(div);
+                    });
+                }
+               
+            })
+        });
+    </script>
+
+{% endblock %}

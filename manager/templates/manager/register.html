@@ -1,0 +1,39 @@
+{% extends 'manager/base.html' %}
+
+{% block content %}
+    <div class="display-container register-container">
+        <form class="form register-form" action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-control">
+                <h2>Register</h2>
+            </div>
+            <div class="form-control">
+                <input class="input register-fields" name="username" type="text" placeholder="Enter your username here" required>
+            </div>
+
+            <div class="form-control">
+                <input class="input register-fields" name="phno" type="text" placeholder="Enter your phone number" required>
+            </div>
+
+            <div class="form-control">
+                <input class="input register-fields" name="password" type="password" placeholder="Enter your password here" required>
+            </div>
+
+            <div class="form-control">
+                <input class="input register-fields" name="cpassword" type="password" placeholder="Confirm password" required>
+            </div>
+            {% if message %}
+                <div class="form-control">    
+                    <p class="error">{{ message }}</p>
+                </div>
+            {% endif %}
+
+            <div class="form-control">
+                <button class="btn btn-primary" type="submit">Register</button>                
+            </div>
+            <div class="form-control">
+                <p class="help-text">Already have an account?<a class="help-links" href="{% url 'login' %}">Login here</a></p>
+            </div>
+        </form>
+    </div>
+{% endblock %}

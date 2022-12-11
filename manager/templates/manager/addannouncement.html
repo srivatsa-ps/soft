@@ -1,0 +1,42 @@
+{% extends 'manager/base.html' %}
+
+{% block content %}
+{% if message %}
+<div class="alert alert-success" role="alert">
+    {{ message }}
+</div>
+{% endif %}
+<div class="add-apartment-container">
+    <h1 style="font-size: 3.5rem; margin: 3rem;">Add Announcement</h1>
+    <form action="{% url 'addannouncement' %}" method="POST" class="apt-form">
+        {% csrf_token %}
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Title</label>
+            <div class="col-sm-10">
+                {{ form.title }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="description" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+                {{ form.description }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="contact" class="col-sm-2 col-form-label">Apartment</label>
+            <div class="col-sm-10">
+                {{ form.apartment }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Add Announcement</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+{% endblock %}

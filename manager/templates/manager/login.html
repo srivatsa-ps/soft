@@ -1,0 +1,33 @@
+{% extends 'manager/base.html' %}
+
+{% block content %}
+
+<div class="display-container login-container">
+    <form class="form login-form" action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-control">
+            <h2>Login</h2>
+        </div>
+        <div class="form-control">
+            <input class="input login-fields" name="username" type="text" placeholder="Enter your username here" required>
+        </div>
+
+        <div class="form-control">
+            <input class="input login-fields" name="password" type="password" placeholder="Enter your password here" required>
+        </div>
+        {% if message %}
+            <div class="form-control">    
+                <p class="error">{{ message }}</p>
+            </div>
+        {% endif %}
+
+        <div class="form-control">
+            <button class="btn btn-primary" type="submit">Login</button>                
+        </div>
+        <div class="form-control">
+            <p class="help-text">Don't have an account?<a class="help-links" href="{% url 'register' %}">Register here</a></p>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
