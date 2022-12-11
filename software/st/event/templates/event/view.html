@@ -1,0 +1,15 @@
+<h1>requests</h1>
+
+<table border="1">
+    {% for x in eventhall %}
+    <tr>
+
+        <td>{{ x.firstname }}</td>
+        <td>{{ x.apartment }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p>
+    <a href="{% url 'index' %}"><button>Add request</button></a>
+</p>
